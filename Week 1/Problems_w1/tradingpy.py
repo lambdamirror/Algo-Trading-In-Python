@@ -93,7 +93,7 @@ class Signal:
         self.cntorderId = None
         self.pricePath = []
         self.exitSign = None
-    
+
     '''
     Function to check and set STATUS of the signals : 
         - WAITING
@@ -105,30 +105,30 @@ class Signal:
     '''
     def is_waiting(self):
         return bool(self.status == 'WAITING')
-        
+
     def set_waiting(self):
         self.status = 'WAITING'
-        
+
     def is_ordered(self):
         return bool(self.status == 'ORDERED')
-        
+
     def set_ordered(self, orderId, orderTime=None, limitPrice=None):
         self.status = 'ORDERED'        
         self.orderId = int(orderId)
-        self.orderTime, self.limitPrice = limitPrice, orderTime      
-    
+        self.orderTime, self.limitPrice = orderTime, limitPrice
+
     def is_active(self):
         return bool(self.status == 'ACTIVE')
-        
+
     def set_active(self, excTime=time.time()*1000, excPrice=None, excQty: float = None):
         self.excPrice = float(excPrice)
         self.excTime = int(excTime)
         self.quantity = round(float(excQty), QUANTPRE[self.symbol])
         self.status = 'ACTIVE'   
-    
+
     def is_cnt_ordered(self):
         return bool(self.status == 'CNT_ORDERED')
-        
+
     def set_cnt_ordered(self, cntorderId, cntType=None, cntTime=None,  cntlimitPrice=None):
         self.status = 'CNT_ORDERED'
         self.cntorderId = int(cntorderId)
@@ -154,7 +154,7 @@ class Signal:
         Return quantity
         '''
         return self.quantity
-        
+
     def counter_order(self):
         ''' 
         Return counter (close) order with same size but opposite side
@@ -188,9 +188,10 @@ class Signal:
             return None
         else:
             exit_sign = None
-            if lastTime is None and lastPrice is None:
+            if lastTime is None or lastPrice is None:
                 _t, _p = self.pricePath[-1]['timestamp'], self.pricePath[-1]['price']
-                
+            else:
+                _t, _p = int(lastTime), float(lastPrice)
                 
             ### PROBLEM 1, 4 : Insert your code here ###
             
@@ -225,7 +226,7 @@ class Backtester:
                  initBalance: float = 1000,
                  orderSize: float = 100,
                  signalList: list = [],
-                 commRate = {'MARKET': 0.016/100, 'LIMIT': 0.04/100}):
+                 commRate = {'MARKET': 0.032/100, 'LIMIT': 0.016/100}):
         self.symbol = symbol
         self.tradeData = tradeData
         self.balancePath = pd.DataFrame([{'_t': self.tradeData['_t'].iloc[0], '_b': initBalance}])
