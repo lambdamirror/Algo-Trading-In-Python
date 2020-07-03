@@ -240,21 +240,21 @@ class Backtester:
     symbol : str -> symbol = 'BTCUSDT' 
     
     tradeData : pd.DataFrame(columns=['_t', '_p']
-    
+
     '''
     def set_trade_data(self, tradeData):
         '''
         Resets tradeData
         '''
         self.tradeData = tradeData
-        
+
     def add_signal(self, signal):
         '''
         Adds a closed signal to the signalList
         '''
         self.signalList.append(signal)
         return self.signalList
-    
+
     def balance_update(self):
         '''
         Compeltes the balance path for every point in tradeData
@@ -268,13 +268,13 @@ class Backtester:
             new_trade =  _trades.iloc[i]
             tradeTime, change = new_trade['_t'], 0
             for sig in self.signalList:
-                if last_trade['_t'] < sig.excTime and sig.excTime <= tradeTime:
+                if last_trade['_t'] <= sig.excTime and sig.excTime < tradeTime:
                     change -= self.commRate[sig.orderType]*sig.get_quantity()*sig.excPrice
                     change += SIDE[sig.side]*sig.get_quantity()*(new_trade['_p'] - sig.excPrice)
-                if last_trade['_t'] < sig.clsTime and sig.clsTime <= tradeTime:
+                if last_trade['_t'] <= sig.clsTime and sig.clsTime < tradeTime:
                     change -= self.commRate[sig.cntType]*sig.get_quantity()*sig.clsPrice
                     change += SIDE[sig.side]*sig.get_quantity()*(sig.clsPrice - last_trade['_p'])
-                if sig.excTime < last_trade['_t'] and tradeTime < sig.clsTime:
+                if sig.excTime < last_trade['_t'] and tradeTime <= sig.clsTime:
                     change += SIDE[sig.side]*sig.get_quantity()*(new_trade['_p'] - last_trade['_p'])
             last_update = self.balancePath.iloc[-1]
             self.balancePath = self.balancePath.append({'_t': int(tradeTime), '_b': float(last_update['_b']+change)}, ignore_index=True)
