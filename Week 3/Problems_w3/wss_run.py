@@ -93,7 +93,7 @@ else:
     # Binance
     apikey = ''
     scrkey = ''
-insIds = [  'BTCUSDT', 'ETHUSDT', 'BCHUSDT', 'LINKUSDT', 'XTZUSDT', 'LTCUSDT','DASHUSDT' ]
+insIds = [  'BTCUSDT', 'ETHUSDT', 'BCHUSDT' ]
 stream = [] ### PROBLEM 1 INSERT your stream subscription here ###
 BidAsk = {}
 AggTrades = {}
@@ -116,6 +116,7 @@ ws = websocket.WebSocketApp(f'{client.wss_way}{listen_key}',
                             on_close=on_close)
 ws.on_open = on_open
 ws.run_forever()
+client.close_stream()
 
 print('\n\tLocal Time at Close: %s \n' % timestr(time.time()*1000))
 print(barstr(text='Elapsed time = {} seconds'.format(round(time.time()-start_time,2))))

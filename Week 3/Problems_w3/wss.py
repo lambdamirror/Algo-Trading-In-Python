@@ -58,7 +58,7 @@ def wss_run(*args):
                 if len(SymKlns[insIds[0]]) % 5 == 0 and len(SymKlns[insIds[0]]) > t1_idx and len(SymKlns[insIds[0]]) < models[insIds[0]].pdObserve:
                     client.keepalive_stream()
                     t1_idx = len(SymKlns[insIds[0]])
-                
+
         def strategy(*args):
             '''
             Second thread to generate signals upon the message from the exchange
@@ -174,7 +174,7 @@ def wss_run(*args):
     def position_count(insIds, signal_list, side='BOTH'):
         '''
         Returns number of open positions
-        '''    
+        '''
         count = 0
         for s in insIds:
             for sig in signal_list[s]:
@@ -186,7 +186,7 @@ def wss_run(*args):
     def in_possition_(signal_list, side='BOTH'):
         '''
         Check if there is any open positions
-        '''    
+        '''
         in_pos = False
         for sig in signal_list:
             if sig.side==side or side=='BOTH':
@@ -198,7 +198,7 @@ def wss_run(*args):
     def get_possible_price(mk_data, side):
         '''
         Return a safe limit price available on the market
-        '''    
+        '''
         mk_depth = mk_data.order_book(limit=5)
         bids = list(float(x[0]) for x in mk_depth['bids'])
         asks = list(float(x[0]) for x in mk_depth['asks'])
