@@ -20,10 +20,9 @@ import urllib
 import json
 import hmac
 import hashlib
-     
+
 #%%%%     
 class MarketData:
-    
     def __init__(self,
                  testnet: bool = False,
                  symbol: str = 'btcusdt'):
@@ -40,8 +39,7 @@ class MarketData:
             self.http_way = 'http://testnet.binancefuture.com/fapi/v1/'
         else:
             self.http_way = 'http://fapi.binance.com/fapi/v1/'
-        
-        self.wss_way = 'wss://fstream.binance.com/ws/'
+
         self.symbol = symbol.lower()
 
     def ping(self):

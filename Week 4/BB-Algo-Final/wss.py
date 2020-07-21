@@ -119,7 +119,7 @@ def wss_run(*args):
                             for trade in recent_trades:
                                 if int(trade['time']) > sig.pricePath[-1]['timestamp']:
                                     sig.path_update(lastTime=trade['time'], lastPrice=trade['price'])
-                            exit_sign. pos = sig.exit_triggers()
+                            exit_sign, pos = sig.exit_triggers()
                             if exit_sign:
                                 print_('\n\tFound ' + str(exit_sign) + '{}\n'.format(round(pos,4)), fileout)
                                 cnt_order = sig.counter_order()
@@ -144,9 +144,10 @@ def wss_run(*args):
                             print_('\n\tPlaced NEW order: \n\t' + str(sig) + '\n\t' + orderstr(order), fileout)
                         elif sig.orderType=='LIMIT':
                             bids, asks, lim = get_possible_price(model.marketData, sig.side)
-                            order = client.new_order(symbol=symbol, side=sig.side, orderType=sig.orderType, quantity=sig.get_quantity(), positionSide=sig.positionSide, timeInForce='GTC', price=lim)
-                            sig.set_ordered(orderId=order['orderId'], orderTime=order['updateTime'], limitPrice=lim)
-                            print_('\n\tPlaced NEW order: \n\t' + str(sig) + '\n\t' + orderstr(order), fileout)
+                            if lim is not None and (lim < sig.price*1.01 and lim > sig.price*0.99):
+                                order = client.new_order(symbol=symbol, side=sig.side, orderType=sig.orderType, quantity=sig.get_quantity(), positionSide=sig.positionSide, timeInForce='GTC', price=lim)
+                                sig.set_ordered(orderId=order['orderId'], orderTime=order['updateTime'], limitPrice=lim)
+                                print_('\n\tPlaced NEW order: \n\t' + str(sig) + '\n\t' + orderstr(order), fileout)
             except Exception:
                 print_('\n\tClose on book_manager()', fileout)
                 ws.close()

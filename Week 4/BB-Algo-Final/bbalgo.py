@@ -19,6 +19,9 @@ pd_ob = int(30/min_in_candle)
 pd_es = 15
 
 def main(args):
+    '''
+    Main function : produce some predefined hyper-parameters before starting the trading session
+    '''
     start_time = time.time()
     testnet = True
     filename = str(int(time.time()))
