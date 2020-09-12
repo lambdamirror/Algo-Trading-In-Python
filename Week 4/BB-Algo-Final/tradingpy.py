@@ -11,7 +11,7 @@ import pandas as pd
 from tqdm import tqdm
 from binancepy import MarketData
 from indicators import Bbands, average_true_range
-from ultilities import timestr, print_
+from utility import timestr, print_
 ###TRADING RULES
 QUANTPRE = {  'BTCUSDT': 3, 'ETHUSDT': 3, 'BCHUSDT': 2, 'XRPUSDT': 1, 'EOSUSDT': 1, 'LTCUSDT': 3, \
                 'TRXUSDT': 0, 'ETCUSDT': 2, 'LINKUSDT': 2, 'XLMUSDT': 0, 'ADAUSDT': 0, 'XMRUSDT': 3, \

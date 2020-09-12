@@ -12,7 +12,7 @@ import threading
 import json
 
 from binancepy import Client
-from ultilities import timestr, barstr
+from utility import timestr, barstr
 
 ### wss functions
 def on_message(ws, message):

@@ -13,7 +13,7 @@ import threading
 import json
 
 from tradingpy import PRICEPRE, SIDE, Signal
-from ultilities import print_, orderstr, timestr, barstr
+from utility import print_, orderstr, timestr, barstr
 
 def wss_run(*args):
     ### threading functions

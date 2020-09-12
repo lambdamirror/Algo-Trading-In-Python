@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 
 from binancepy import MarketData, Client
-from ultilities import print_, barstr, timestr
+from utility import print_, barstr, timestr
 from tradingpy import TradingModel, Portfolio
 from wss import wss_run
 
